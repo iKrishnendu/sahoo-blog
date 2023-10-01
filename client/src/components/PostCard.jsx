@@ -17,7 +17,8 @@ export const PostCard = ({ _id, title, desc, category, image }) => {
             </div>
 
             <h2 className="font-medium truncate">{title}</h2>
-            <p>{desc}</p>
+
+            <p dangerouslySetInnerHTML={{ __html: desc }} />
           </Link>
         </div>
       </div>

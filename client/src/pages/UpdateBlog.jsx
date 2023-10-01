@@ -95,7 +95,7 @@ const UpdateBlog = () => {
               />
               <select
                 value={category}
-                className="border-2 border-black-500 rounded-lg p-1"
+                className="border-2 border-black-500 rounded-lg "
                 onChange={(e) => setCategory(e.target.value)}
               >
                 {categories.map((category) => (

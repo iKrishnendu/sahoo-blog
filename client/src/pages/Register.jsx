@@ -4,6 +4,7 @@ import { useState } from "react";
 import { request } from "../utils/fetchApi";
 import { register } from "../redux/authSlice";
 import { useDispatch } from "react-redux";
+import Navbar from "../components/Navbar";
 
 const Register = () => {
   const [username, setUsername] = useState("");
@@ -34,6 +35,7 @@ const Register = () => {
 
   return (
     <div>
+      <Navbar />
       <div className="grid place-content-center mt-10 p-2 ">
         <div className="sm:w-80 p-3 rounded-md">
           <h1 className="text-left text-2xl pb-2">

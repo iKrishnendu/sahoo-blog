@@ -5,6 +5,9 @@ import { Link, useNavigate } from "react-router-dom";
 import { AiOutlineCloseCircle } from "react-icons/ai";
 import { request } from "../utils/fetchApi";
 import { AiOutlineArrowLeft } from "react-icons/ai";
+import "react-quill/dist/quill.snow.css";
+import Editor from "../components/Editor";
+import ReactQuill from "react-quill";
 
 const Create = () => {
   const { user, token } = useSelector((state) => state.auth);
@@ -116,28 +119,27 @@ const Create = () => {
   return (
     <>
       <div>
-        <div>
+        <div className="container">
           <Link to="/" className="flex items-center gap-2 py-2">
             <AiOutlineArrowLeft /> Go Back
           </Link>
-          <div className="grid place-content-center mt-6 p-2 ">
+          <div className="content">
             <div className="sm:w-80 py-3 rounded-md">
               <h1 className="text-left text-2xl pb-2">
-                <b>Create New Blog</b>
+                <b>Create Blog</b>
               </h1>
               <p className="text-sm">
                 Crafting Words, Sharing Stories: Your Journey to Blogging Begins
                 Here.
               </p>
             </div>
-
             <form
-              className="flex flex-col py-2 gap-3"
+              className="form flex flex-col py-2 gap-3"
               onSubmit={handleCreateBlog}
               encType="multipart/form-data"
             >
-              <div className="flex flex-col gap-1">
-                <label>Title: </label>
+              <div className="form-group flex flex-col gap-3">
+                <label>Title:</label>
                 <input
                   type="text"
                   placeholder="Title..."
@@ -148,23 +150,19 @@ const Create = () => {
                   }
                 />
               </div>
-              <div className="flex flex-col gap-1">
-                <label>Description: </label>
-                <input
-                  type="text"
-                  placeholder="Description..."
+              <div className="form-group flex flex-col gap-3">
+                <label>Description:</label>
+                <Editor
                   value={formData.desc}
-                  className="border-2 border-black-500 rounded-lg p-1"
-                  onChange={(e) =>
-                    setFormData({ ...formData, desc: e.target.value })
-                  }
+                  theme="snow"
+                  onChange={(e) => setFormData({ ...formData, desc: e })}
                 />
               </div>
-              <div className="flex flex-col gap-1">
-                <label>Category: </label>
+              <div className="form-group">
+                <label>Category:</label>
                 <select
                   value={formData.category}
-                  className="border-2 border-black-500 rounded-lg p-1"
+                  className="border-2 border-black-500 rounded-lg p-1 m-1"
                   onChange={(e) =>
                     setFormData({ ...formData, category: e.target.value })
                   }
@@ -176,24 +174,25 @@ const Create = () => {
                   ))}
                 </select>
               </div>
-              <div>
+              <div className="form-group flex flex-col gap-3">
                 <label htmlFor="image">
                   Image: <span>Upload here</span>
                 </label>
+
                 <input
                   id="image"
                   type="file"
                   onChange={onChangeFile}
                   style={{ display: "none" }}
                 />
+
                 {formData.img && (
-                  <p className="flex items-center py-2 gap-2">
-                    {formData.img.name}{" "}
+                  <span className="flex flex-row gap-1 items-center">
+                    <p className="file-info">{formData.img.name} </p>
                     <AiOutlineCloseCircle onClick={handleCloseImg} />
-                  </p>
+                  </span>
                 )}
               </div>
-
               <button
                 className="bg-gray-800 p-1 px-2 rounded-sm text-white shadow-sm"
                 type="submit"

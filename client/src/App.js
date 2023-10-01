@@ -17,14 +17,6 @@ function App() {
         <Route path="/" element={<Layout />}>
           <Route index element={<Home />} />
           <Route
-            path="/login"
-            element={!user ? <Login /> : <Navigate to="/" />}
-          />
-          <Route
-            path="/register"
-            element={!user ? <Register /> : <Navigate to="/" />}
-          />
-          <Route
             path="/create"
             element={user ? <Create /> : <Navigate to="/login" />}
           />
@@ -37,6 +29,14 @@ function App() {
             element={user ? <UpdateBlog /> : <Navigate to="/login" />}
           />
         </Route>
+        <Route
+          path="/login"
+          element={!user ? <Login /> : <Navigate to="/" />}
+        />
+        <Route
+          path="/register"
+          element={!user ? <Register /> : <Navigate to="/" />}
+        />
       </Routes>
     </div>
   );

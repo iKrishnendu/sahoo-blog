@@ -4,6 +4,8 @@ import { Link, useNavigate } from "react-router-dom";
 import { request } from "../utils/fetchApi";
 import { useDispatch } from "react-redux";
 import { login } from "../redux/authSlice";
+import { toast } from "react-toastify";
+import Navbar from "../components/Navbar";
 
 const Login = () => {
   const [email, setEmail] = useState("");
@@ -27,14 +29,17 @@ const Login = () => {
       });
       console.log(data);
       dispatch(login(data));
+      toast.success("Login Success!");
       navigate("/");
     } catch (error) {
+      toast.error(error.message);
       console.error(error);
     }
   };
 
   return (
     <div>
+      <Navbar />
       <div className="grid place-content-center mt-10 p-2 ">
         <div className="sm:w-80 p-3 rounded-md">
           <h1 className="text-left text-2xl pb-2">
