@@ -28,10 +28,9 @@ const Login = () => {
       });
       console.log(data);
       dispatch(login(data));
-      toast.success("Login Success!");
+
       navigate("/");
     } catch (error) {
-      toast.error(error.message);
       console.error(error);
     }
   };
