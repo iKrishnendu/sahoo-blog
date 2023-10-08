@@ -7,6 +7,8 @@ import Register from "./pages/Register";
 import UpdateBlog from "./pages/UpdateBlog";
 import { useSelector } from "react-redux";
 import Layout from "./layout/Layout";
+import Profile from "./pages/Profile";
+import UpdateProfile from "./pages/UpdateProfile";
 
 function App() {
   const { user } = useSelector((state) => state.auth);
@@ -36,6 +38,14 @@ function App() {
         <Route
           path="/register"
           element={!user ? <Register /> : <Navigate to="/" />}
+        />
+        <Route
+          path="/profile"
+          element={user ? <Profile /> : <Navigate to="/" />}
+        />
+        <Route
+          path="/update-profile"
+          element={user ? <UpdateProfile /> : <Navigate to="/" />}
         />
       </Routes>
     </div>

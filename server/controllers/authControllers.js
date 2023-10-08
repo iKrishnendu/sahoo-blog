@@ -51,4 +51,53 @@ authControllers.post("/login", async (req, res) => {
   }
 });
 
+// Update user profile (username, email, password) if password matches
+authControllers.put("/update-profile/:id", async (req, res) => {
+  try {
+    const { id } = req.params;
+    const { currentPassword, newPassword, username, email } = req.body;
+
+    const user = await User.findById(id);
+    if (!user) {
+      return res.status(404).json("User not found");
+    }
+
+    // Check if the provided current password matches the one in the database
+    const validPassword = await bcrypt.compare(currentPassword, user.password);
+
+    if (!validPassword) {
+      return res.status(400).json("Current password is incorrect");
+    }
+
+    // Hash the new password if provided
+    let hashedPassword = user.password;
+    if (newPassword) {
+      const salt = await bcrypt.genSalt(10);
+      hashedPassword = await bcrypt.hash(newPassword, salt);
+    }
+
+    // Update user profile fields
+    const updatedUser = await User.findByIdAndUpdate(
+      id,
+      {
+        $set: {
+          username: username || user.username,
+          email: email || user.email,
+          password: hashedPassword,
+        },
+      },
+      { new: true }
+    );
+
+    const { password, ...others } = updatedUser._doc;
+    const token = jwt.sign({ id: updatedUser._id }, process.env.JWT_SECRET, {
+      expiresIn: "5h",
+    });
+
+    res.status(200).json({ user: others, token });
+  } catch (error) {
+    res.status(500).json(error);
+  }
+});
+
 module.exports = authControllers;

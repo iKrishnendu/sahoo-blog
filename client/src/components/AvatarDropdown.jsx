@@ -1,6 +1,7 @@
 import React, { useEffect } from "react";
 import { logout } from "../redux/authSlice";
 import { useDispatch, useSelector } from "react-redux";
+import { Link } from "react-router-dom";
 
 function AvatarDropdown() {
   const dispatch = useDispatch();
@@ -21,9 +22,12 @@ function AvatarDropdown() {
         </span>
       </div>
       <hr />
-      <a href="#" className="block px-4 py-2 text-gray-800 hover:bg-gray-200">
+      <Link
+        to="/profile"
+        className="block px-4 py-2 text-gray-800 hover:bg-gray-200"
+      >
         Profile
-      </a>
+      </Link>
       <a href="#" className="block px-4 py-2 text-gray-800 hover:bg-gray-200">
         Settings
       </a>
