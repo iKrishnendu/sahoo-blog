@@ -4,7 +4,6 @@ import { Link, useNavigate } from "react-router-dom";
 import { request } from "../utils/fetchApi";
 import { useDispatch } from "react-redux";
 import { login } from "../redux/authSlice";
-import { toast } from "react-toastify";
 import Navbar from "../components/Navbar";
 
 const Login = () => {
