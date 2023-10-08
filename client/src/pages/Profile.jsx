@@ -4,7 +4,6 @@ import { Link, useNavigate } from "react-router-dom";
 import { request } from "../utils/fetchApi";
 import { useDispatch, useSelector } from "react-redux";
 import { login } from "../redux/authSlice";
-import { toast } from "react-toastify";
 import Navbar from "../components/Navbar";
 
 const Profile = () => {
@@ -31,10 +30,8 @@ const Profile = () => {
       });
       console.log(data);
       dispatch(login(data));
-      toast.success("Login Success!");
       navigate("/");
     } catch (error) {
-      toast.error(error.message);
       console.error(error);
     }
   };
