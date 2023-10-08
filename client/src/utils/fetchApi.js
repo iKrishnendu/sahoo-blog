@@ -1,4 +1,4 @@
-const BASE_URL = "https://sahoo-blog-server.vercel.app/";
+const BASE_URL = "https://sahoo-blog-server.vercel.app";
 
 export const request = async (
   url,
