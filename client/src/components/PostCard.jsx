@@ -11,6 +11,7 @@ export const PostCard = ({ _id, title, desc, category, image }) => {
             <img
               src={image.url}
               className="w-full cursor-pointer transition duration-200 ease-in-out transform hover:scale-105 rounded-lg h-60"
+              alt=""
             />
             <div className="uppercase tracking-wide py-2 text-sm text-indigo-500 font-semibold">
               {category}

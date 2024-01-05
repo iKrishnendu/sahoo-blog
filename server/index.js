@@ -4,6 +4,7 @@ const dotenv = require("dotenv").config();
 const cors = require("cors");
 const authControllers = require("./controllers/authControllers");
 const blogControllers = require("./controllers/blogControllers");
+const commentControllers = require("./controllers/commentControllers");
 const bodyParser = require("body-parser");
 // const multer = require("multer");
 const app = express();
@@ -35,6 +36,7 @@ app.use(express.json()); //body parser
 app.use(express.urlencoded({ extended: true }));
 app.use("/auth", authControllers); //user routes
 app.use("/blog", blogControllers);
+app.use("/comments", commentControllers);
 
 // multer
 // const storage = multer.diskStorage({
@@ -55,4 +57,6 @@ app.use("/blog", blogControllers);
 // });
 
 //connect server
-app.listen(process.env.PORT, () => console.log("server started..."));
+app.listen(process.env.PORT, () =>
+  console.log("server started on PORT 5000...")
+);

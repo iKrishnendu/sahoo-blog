@@ -5,10 +5,22 @@ const cloudinary = require("../utils/cloudinary");
 const verifyToken = require("../middlewares/verifyToken");
 // const cloudinary = require("cloudinary");
 
+// Assuming you are using Mongoose for database operations
 blogControllers.get("/getAll", async (req, res) => {
   try {
-    const blogs = await Blog.find().populate("userId", "-password");
-    return res.status(200).json(blogs);
+    const page = parseInt(req.query.page) || 1;
+    const limit = 6; // Number of blogs per page
+    const skip = (page - 1) * limit;
+
+    const blogs = await Blog.find()
+      .populate("userId", "-password")
+      .skip(skip)
+      .limit(limit);
+
+    const totalBlogs = await Blog.countDocuments();
+    const totalPages = Math.ceil(totalBlogs / limit);
+
+    return res.status(200).json({ blogs, totalPages });
   } catch (err) {
     return res.status(500).json(err.message);
   }

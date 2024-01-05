@@ -43,10 +43,11 @@ function App() {
           path="/profile"
           element={user ? <Profile /> : <Navigate to="/" />}
         />
-        <Route
+        {/* <Route
           path="/update-profile"
           element={user ? <UpdateProfile /> : <Navigate to="/" />}
-        />
+        /> */}
+        <Route path="/page/:page" component={Home} />
       </Routes>
     </div>
   );

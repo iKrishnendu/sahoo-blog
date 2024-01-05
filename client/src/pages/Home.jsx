@@ -3,26 +3,47 @@ import { request } from "../utils/fetchApi";
 import { useSelector } from "react-redux";
 import { Link } from "react-router-dom";
 import { PostCard } from "../components/PostCard";
+import Pagination from "../components/Pagination";
+
+const Loading = ({ item }) => {
+  return [...Array(item).keys()].map((index) => (
+    <div key={index} className="animate-pulse">
+      <div className="bg-gray-300 rounded-lg h-72"></div>
+    </div>
+  ));
+};
 
 const Home = () => {
   const [blogs, setBlogs] = useState([]);
+  const [loading, setLoading] = useState(true);
   const { user, token } = useSelector((state) => state.auth);
 
-  useEffect(() => {
-    const fetchBlogs = async () => {
-      try {
-        const options = {
-          Authorization: `Bearer ${token}`,
-        };
-        const response = await request("/blog/getAll", "GET", options);
-        setBlogs(response);
-      } catch (error) {
-        console.error(error);
-      }
-    };
+  const [currentPage, setCurrentPage] = useState(1);
+  const [totalPages, setTotalPages] = useState(1);
 
-    fetchBlogs();
-  }, []);
+  const fetchBlogs = async (page) => {
+    try {
+      setLoading(true); // Set loading to true when starting to fetch data
+      const options = {
+        Authorization: `Bearer ${token}`,
+      };
+      const response = await request(
+        `/blog/getAll?page=${page}`,
+        "GET",
+        options
+      );
+      setBlogs(response.blogs);
+      setTotalPages(response.totalPages);
+    } catch (error) {
+      console.error(error);
+    } finally {
+      setLoading(false); // Set loading to false after fetching data
+    }
+  };
+
+  useEffect(() => {
+    fetchBlogs(currentPage);
+  }, [token, currentPage]);
 
   return (
     <div>
@@ -39,10 +60,22 @@ const Home = () => {
           ""
         )}
       </div>
-      <div className="mt-8 grid grid-cols-1 sm:grid-cols-2 md:grid-cols-3 gap-4 justify-center ">
-        {blogs.length > 0 &&
-          blogs.map((blog) => <PostCard key={blog._id} {...blog} />)}
-      </div>
+      {loading ? (
+        <div className="text-center mt-8 grid grid-cols-1 sm:grid-cols-2 md:grid-cols-3 gap-4 justify-center">
+          <Loading item={3} />
+        </div>
+      ) : (
+        <div className="mt-8 grid grid-cols-1 sm:grid-cols-2 md:grid-cols-3 gap-4 justify-center ">
+          {blogs.length > 0 &&
+            blogs.map((blog) => <PostCard key={blog._id} {...blog} />)}
+        </div>
+      )}
+      {/* Add pagination component */}
+      <Pagination
+        currentPage={currentPage}
+        totalPages={totalPages}
+        onPageChange={(page) => setCurrentPage(page)}
+      />
     </div>
   );
 };
