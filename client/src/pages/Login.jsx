@@ -1,16 +1,27 @@
-import React from "react";
-import { useState } from "react";
+import React, { useEffect, useState } from "react";
 import { Link, useNavigate } from "react-router-dom";
-import { request } from "../utils/fetchApi";
+// import { GoogleLogin } from "@react-oauth/google";
 import { useDispatch } from "react-redux";
 import { login } from "../redux/authSlice";
 import Navbar from "../components/Navbar";
+import { request } from "../utils/fetchApi";
+// import { jwtDecode } from "jwt-decode";
 
 const Login = () => {
   const [email, setEmail] = useState("");
   const [password, setPassword] = useState("");
   const dispatch = useDispatch();
   const navigate = useNavigate();
+
+  useEffect(() => {
+    const urlParams = new URLSearchParams(window.location.search);
+    const token = urlParams.get("token");
+
+    if (token) {
+      dispatch(login({ token }));
+      navigate("/"); // Redirect to the desired page after login
+    }
+  }, [dispatch, navigate]);
 
   const handleLogin = async (e) => {
     e.preventDefault();
@@ -26,19 +37,51 @@ const Login = () => {
         email,
         password,
       });
-      console.log(data);
-      dispatch(login(data));
 
+      dispatch(login(data));
       navigate("/");
     } catch (error) {
       console.error(error);
     }
   };
 
+  // const handleGoogleLoginSuccess = async (response) => {
+  //   try {
+  //     // Use the Google token directly from the response
+  //     const googleToken = jwtDecode(response.credential);
+  //     console.log("Google token", googleToken);
+
+  //     // Fetch the Google login endpoint directly
+  //     const url = `http://localhost:5000/auth/google`;
+  //     const fetchOptions = {
+  //       method: "GET",
+  //       headers: {
+  //         "Content-Type": "application/json",
+  //       },
+  //       credentials: "include",
+  //     };
+
+  //     const fetchResponse = await fetch(url, fetchOptions);
+  //     if (!fetchResponse.ok) {
+  //       throw new Error(`Failed to fetch. Status: ${fetchResponse.status}`);
+  //     }
+  //     const data = await fetchResponse.json();
+
+  //     dispatch(login(data.token));
+  //     navigate("/");
+  //   } catch (error) {
+  //     console.error("Google login error:", error);
+  //   }
+  // };
+
+  // const handleGoogleLoginFailure = (error) => {
+  //   console.error("Google login failure:", error);
+  // };
+
   return (
     <div>
       <Navbar />
-      <div className="grid place-content-center mt-10 p-2 ">
+      <div className="grid place-content-center mt-10 p-2">
         <div className="sm:w-80 p-3 rounded-md">
           <h1 className="text-left text-2xl pb-2">
             <b>Hello User</b>
@@ -69,6 +112,22 @@ const Login = () => {
               Login
             </button>
           </form>
+          <div>
+            {/* <GoogleLogin
+              // clientId="Your-Client-ID"
+              buttonText="Login with Google"
+              onSuccess={handleGoogleLoginSuccess}
+              onFailure={handleGoogleLoginFailure}
+              cookiePolicy={"single_host_origin"}
+              fetchOptions={{
+                method: "GET",
+                headers: {
+                  "Content-Type": "application/json",
+                },
+                credentials: "include",
+              }}
+            /> */}
+          </div>
         </div>
       </div>
     </div>

@@ -26,8 +26,16 @@ const Register = () => {
         email,
         password,
       });
-      dispatch(register(data));
-      navigate("/");
+      // Check if the registration was successful
+      if (data.user && data.token) {
+        // dispatch(register(data));
+        console.log("Registration successful! Verify your email to log in.");
+        // Navigate only if the registration is successful
+        // navigate("/");
+      } else {
+        // Handle registration failure (display an error message, etc.)
+        console.error("Registration failed:", data.error);
+      }
     } catch (error) {
       console.error(error);
     }

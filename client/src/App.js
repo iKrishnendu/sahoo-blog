@@ -8,7 +8,8 @@ import UpdateBlog from "./pages/UpdateBlog";
 import { useSelector } from "react-redux";
 import Layout from "./layout/Layout";
 import Profile from "./pages/Profile";
-import UpdateProfile from "./pages/UpdateProfile";
+import VerifyEmail from "./pages/VerifyEmail";
+// import UpdateProfile from "./pages/UpdateProfile";
 
 function App() {
   const { user } = useSelector((state) => state.auth);
@@ -30,6 +31,7 @@ function App() {
             path="/updateBlog/:id"
             element={user ? <UpdateBlog /> : <Navigate to="/login" />}
           />
+          <Route path="/verify" element={<VerifyEmail />} />
         </Route>
         <Route
           path="/login"
@@ -47,7 +49,7 @@ function App() {
           path="/update-profile"
           element={user ? <UpdateProfile /> : <Navigate to="/" />}
         /> */}
-        <Route path="/page/:page" component={Home} />
+        {/* <Route path="/page/:page" component={Home} /> */}
       </Routes>
     </div>
   );

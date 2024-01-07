@@ -52,8 +52,8 @@ const Comment = ({ blogId, token }) => {
       };
 
       // Assuming your server is running locally on http://localhost:5000
-      // const url = "http://localhost:5000/comments/" + blogId;
-      const url = "http://sahoo-blog-server.vercel.app/comments/" + blogId;
+      const url = "http://localhost:5000/comments/" + blogId;
+      // const url = "https://sahoo-blog-server.vercel.app/comments/" + blogId;
       const response = await fetch(url, options);
       const newComment = await response.json();
 
