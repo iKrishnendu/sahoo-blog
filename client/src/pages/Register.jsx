@@ -1,16 +1,12 @@
-import React from "react";
+import React, { useState } from "react";
 import { Link, useNavigate } from "react-router-dom";
-import { useState } from "react";
 import { request } from "../utils/fetchApi";
-import { register } from "../redux/authSlice";
-import { useDispatch } from "react-redux";
 import Navbar from "../components/Navbar";
 
 const Register = () => {
   const [username, setUsername] = useState("");
   const [email, setEmail] = useState("");
   const [password, setPassword] = useState("");
-  const dispatch = useDispatch();
   const navigate = useNavigate();
 
   const handleRegister = async (e) => {
@@ -26,9 +22,9 @@ const Register = () => {
         email,
         password,
       });
+
       // Check if the registration was successful
       if (data.user && data.token) {
-        // dispatch(register(data));
         console.log("Registration successful! Verify your email to log in.");
         // Navigate only if the registration is successful
         // navigate("/");
@@ -42,41 +38,39 @@ const Register = () => {
   };
 
   return (
-    <div>
+    <div className="min-h-screen bg-gray-100">
       <Navbar />
-      <div className="grid place-content-center mt-10 p-2 ">
-        <div className="sm:w-80 p-3 rounded-md">
-          <h1 className="text-left text-2xl pb-2">
-            <b>Hello Guest</b>
-          </h1>
+      <div className="flex items-center justify-center h-screen">
+        <div className="bg-white p-8 rounded-md shadow-md w-96">
+          <h1 className="text-3xl font-semibold mb-4">Hello Guest</h1>
           <p>
             Already have an account? /{" "}
-            <Link to="/login">
-              <b>Login</b>
+            <Link to="/login" className="text-blue-500">
+              Login
             </Link>
           </p>
-          <form className="flex flex-col py-2 gap-3" onSubmit={handleRegister}>
+          <form className="mt-6" onSubmit={handleRegister}>
             <input
               type="text"
-              placeholder="Username..."
-              className="border-2 border-black-500 rounded-lg p-1"
+              placeholder="Username"
+              className="w-full p-3 border rounded-md"
               onChange={(e) => setUsername(e.target.value)}
             />
             <input
               type="email"
-              placeholder="Email..."
-              className="border-2 border-black-500 rounded-lg p-1"
+              placeholder="Email"
+              className="w-full mt-4 p-3 border rounded-md"
               onChange={(e) => setEmail(e.target.value)}
             />
             <input
               type="password"
-              placeholder="Password..."
-              className="border-2 border-black-500 rounded-lg p-1"
+              placeholder="Password"
+              className="w-full mt-4 p-3 border rounded-md"
               onChange={(e) => setPassword(e.target.value)}
             />
             <button
-              className="bg-gray-800 p-1 rounded-sm text-white"
               type="submit"
+              className="w-full mt-6 bg-gray-800 text-white p-3 rounded-md hover:bg-gray-900 transition duration-300"
             >
               Register
             </button>

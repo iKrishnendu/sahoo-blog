@@ -4,6 +4,7 @@ import { useSelector } from "react-redux";
 import { Link } from "react-router-dom";
 import { PostCard } from "../components/PostCard";
 import Pagination from "../components/Pagination";
+import Hero from "../components/Hero";
 
 const Loading = ({ item }) => {
   return [...Array(item).keys()].map((index) => (
@@ -47,7 +48,8 @@ const Home = () => {
 
   return (
     <div>
-      <div className="flex justify-center">
+      <Hero />
+      {/* <div className="flex justify-center">
         {user ? (
           <Link
             to="/create"
@@ -59,7 +61,7 @@ const Home = () => {
         ) : (
           ""
         )}
-      </div>
+      </div> */}
       {loading ? (
         <div className="text-center mt-8 grid grid-cols-1 sm:grid-cols-2 md:grid-cols-3 gap-4 justify-center">
           <Loading item={3} />

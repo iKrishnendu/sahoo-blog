@@ -6,6 +6,8 @@ import { format } from "timeago.js";
 import { AiFillEdit, AiFillDelete, AiOutlineArrowLeft } from "react-icons/ai";
 import { FcLikePlaceholder, FcLike } from "react-icons/fc";
 import Comment from "../components/Comment";
+import Categories from "../components/Categories";
+import RecommendedPosts from "../components/RecommendedPosts";
 
 // Loading component
 const Loading = () => (
@@ -63,77 +65,89 @@ const BlogDetails = () => {
 
   return (
     <>
-      {loading ? (
-        // Display loading component while data is being fetched
-        <div className="w-full">
-          <Loading />
-        </div>
-      ) : (
-        <div className="w-full">
-          <Link to="/" className="flex items-center gap-2 py-2">
-            <AiOutlineArrowLeft /> Go Back
-          </Link>
-          <div>
-            <img
-              className="w-full lg:h-96 sm:h-40"
-              src={blogDetails?.image?.url}
-              alt={blogDetails?.title}
-            />
-            <div>
-              <div className="text-center my-5 text-2xl prose">
-                <h2>{blogDetails?.title}</h2>
-              </div>
-              {blogDetails?.userId?._id === user._id ? (
-                <div className="flex gap-3">
-                  <Link
-                    className="flex gap-2 items-center bg-green-400 px-2 py-1 rounded-sm"
-                    to={`/updateBlog/${blogDetails?._id}`}
-                  >
-                    Edit <AiFillEdit />
-                  </Link>
-                  <div className="flex gap-2 items-center bg-red-300 px-2 cursor-pointer">
-                    Delete <AiFillDelete onClick={handleDeleteBlog} />
+      <Link
+        to="/"
+        className="flex justify-center items-center gap-2 py-2 w-32 border hover:border-gray-300 duration-200"
+      >
+        <AiOutlineArrowLeft /> Go Back
+      </Link>
+      <div className="flex flex-col lg:flex-row mt-1">
+        <div className="lg:w-2/3">
+          {loading ? (
+            // Display loading component while data is being fetched
+            <div className="w-full">
+              <Loading />
+            </div>
+          ) : (
+            <div className="w-full pt-3 mt-1">
+              <div>
+                <img
+                  className="w-full lg:h-96 sm:h-40"
+                  src={blogDetails?.image?.url}
+                  alt={blogDetails?.title}
+                />
+                <div>
+                  <div className="text-center my-5 text-2xl prose">
+                    <h2>{blogDetails?.title}</h2>
                   </div>
-                </div>
-              ) : (
-                <>
-                  {isLiked ? (
-                    <div className="text-2xl text-center justify-center">
-                      <FcLike onClick={handleLikePost} />
+                  {blogDetails?.userId?._id === user._id ? (
+                    <div className="flex gap-3">
+                      <Link
+                        className="flex gap-2 items-center bg-green-400 px-2 py-1 rounded-sm"
+                        to={`/updateBlog/${blogDetails?._id}`}
+                      >
+                        Edit <AiFillEdit />
+                      </Link>
+                      <div className="flex gap-2 items-center bg-red-300 px-2 cursor-pointer">
+                        Delete <AiFillDelete onClick={handleDeleteBlog} />
+                      </div>
                     </div>
                   ) : (
-                    <div className="text-2xl text-center justify-center">
-                      <FcLikePlaceholder onClick={handleLikePost} />
-                    </div>
+                    <>
+                      {isLiked ? (
+                        <div className="text-2xl text-center justify-center">
+                          <FcLike onClick={handleLikePost} />
+                        </div>
+                      ) : (
+                        <div className="text-2xl text-center justify-center">
+                          <FcLikePlaceholder onClick={handleLikePost} />
+                        </div>
+                      )}
+                    </>
                   )}
-                </>
-              )}
-            </div>
-            <div className="py-5">
-              <p className="text-lg">
-                <span>Description: </span>
-              </p>
-              <div
-                className="prose w-full"
-                dangerouslySetInnerHTML={{ __html: blogDetails?.desc }}
-              />
-              <div className="flex gap-2">
-                <span>{blogDetails?.views} views</span>
-                <span>{likeCount} likes</span>
+                </div>
+                <div className="py-5">
+                  <p className="text-lg">
+                    <span>Description: </span>
+                  </p>
+                  <div
+                    className="prose w-full"
+                    dangerouslySetInnerHTML={{ __html: blogDetails?.desc }}
+                  />
+                  <div className="flex gap-2">
+                    <span>{blogDetails?.views} views</span>
+                    <span>{likeCount} likes</span>
+                  </div>
+                </div>
+                <div>
+                  <span>
+                    <span>Author: </span> {blogDetails?.userId?.username}
+                  </span>{" "}
+                  <span>
+                    <span>Created At: </span> {format(blogDetails?.createdAt)}
+                  </span>
+                </div>
               </div>
             </div>
-            <div>
-              <span>
-                <span>Author: </span> {blogDetails?.userId?.username}
-              </span>{" "}
-              <span>
-                <span>Created At: </span> {format(blogDetails?.createdAt)}
-              </span>
-            </div>
-          </div>
+          )}
+          <Comment blogId={id} token={token} />
         </div>
-      )}
-      <Comment blogId={id} token={token} />
+        {/* Add Categories component on the right side */}
+        <div className="lg:w-1/3 p-4 sticky top-1 lg:h-full ">
+          <Categories />
+          <RecommendedPosts />
+        </div>
+      </div>
     </>
   );
 };

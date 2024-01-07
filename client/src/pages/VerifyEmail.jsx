@@ -3,7 +3,7 @@ import { register } from "../redux/authSlice";
 import { useDispatch, useSelector } from "react-redux";
 import { useNavigate } from "react-router-dom";
 
-const BASE_URL = "http://localhost:5000"; // Update this to your actual backend URL
+// const BASE_URL = "http://localhost:5000"; // Update this to your actual backend URL
 
 const VerifyEmail = () => {
   const dispatch = useDispatch();
@@ -31,12 +31,15 @@ const VerifyEmail = () => {
 
   const verifyEmail = async (token) => {
     try {
-      const response = await fetch(`${BASE_URL}/auth/verify?token=${token}`, {
-        method: "GET",
-        headers: {
-          "Content-Type": "application/json",
-        },
-      });
+      const response = await fetch(
+        `${process.env.REACT_APP_SERVER_URL}/auth/verify?token=${token}`,
+        {
+          method: "GET",
+          headers: {
+            "Content-Type": "application/json",
+          },
+        }
+      );
 
       if (!response.ok) {
         throw new Error("Verification failed");

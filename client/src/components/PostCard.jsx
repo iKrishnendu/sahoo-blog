@@ -4,7 +4,7 @@ import { Link } from "react-router-dom";
 export const PostCard = ({ _id, title, desc, category, image }) => {
   return (
     <div>
-      <div className="post shadow-lg bg-[#F3F3F2] shadow-blue-100 rounded-lg p-2 h-96 overflow-hidden">
+      <div className="post shadow-lg bg-[#F3F3F2] shadow-blue-100 hover:shadow-gray-300 rounded-lg p-2 h-96 overflow-hidden">
         <div key={_id} className="">
           <div className="overflow-hidden rounded-lg"></div>
           <Link to={`/blogDetails/${_id}`}>

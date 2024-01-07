@@ -1,5 +1,8 @@
-const BASE_URL = "http://localhost:5000"; // Update the base URL to your server URL
+// const BASE_URL = "http://localhost:5000"; // Update the base URL to your server URL
 // const BASE_URL = "https://sahoo-blog-server.vercel.app";
+
+const BASE_URL = process.env.REACT_APP_SERVER_URL;
+
 export const request = async (
   url,
   method,

@@ -63,7 +63,10 @@ const Create = () => {
       };
 
       // Send the request to your backend
-      const response = await fetch("https://sahoo-blog-server.vercel.app/blog", options);
+      const response = await fetch(
+        `${process.env.REACT_APP_SERVER_URL}/blog`,
+        options
+      );
 
       if (response.ok) {
         const data = await response.json();

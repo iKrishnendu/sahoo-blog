@@ -3,51 +3,91 @@ import AvatarDropdown from "./AvatarDropdown";
 import { RxAvatar } from "react-icons/rx";
 import { Link } from "react-router-dom";
 import { useSelector } from "react-redux";
+import { categories } from "../utils/categories";
 
 function Navbar() {
   const [isDropdownOpen, setIsDropdownOpen] = useState(false);
+  const [isCategoriesDropdownOpen, setIsCategoriesDropdownOpen] =
+    useState(false);
+
   const { user } = useSelector((state) => state.auth);
 
-  const toggleDropdown = () => {
-    setIsDropdownOpen(!isDropdownOpen);
+  const openCategoriesDropdown = () => {
+    setIsCategoriesDropdownOpen(true);
   };
+
+  const closeCategoriesDropdown = () => {
+    setIsCategoriesDropdownOpen(false);
+  };
+
+  // const closeAllDropdowns = () => {
+  //   setIsDropdownOpen(false);
+  //   setIsCategoriesDropdownOpen(false);
+  // };
 
   return (
     <div className="bg-gray-800 px-4 pb-2">
-      <div className="flex justify-between items-center ">
-        <div className="text-white font-mono text-2xl font-semibold">
-          <Link to="/" className="text-xl flex flex-col">
-            <span>Sahoo</span>
-            <span>blog.</span>
-          </Link>
+      <div className="flex justify-between items-center">
+        <div
+          className="relative group flex"
+          onMouseEnter={openCategoriesDropdown}
+          onMouseLeave={closeCategoriesDropdown}
+        >
+          <div className="text-white font-mono text-2xl font-semibold">
+            <Link to="/" className="text-xl flex flex-col">
+              <span>Sahoo</span>
+              <span>blog.</span>
+            </Link>
+          </div>
+
+          <div className="relative px-1 mx-4 items-center pt-2">
+            <span className="cursor-pointer text-white ">
+              Categories
+              {isCategoriesDropdownOpen ? (
+                <svg
+                  xmlns="http://www.w3.org/2000/svg"
+                  className="h-4 w-4 text-white inline-block ml-1 transform rotate-180 transition-transform duration-300"
+                  viewBox="0 0 20 20"
+                  fill="currentColor"
+                >
+                  <path d="M10 12l-1 1 5 5V7h-1.5v6.5L10 12z" />
+                </svg>
+              ) : (
+                <svg
+                  xmlns="http://www.w3.org/2000/svg"
+                  className="h-4 w-4 text-white inline-block ml-1 transition-transform duration-300"
+                  viewBox="0 0 20 20"
+                  fill="currentColor"
+                >
+                  <path d="M10 12l-1 1 5 5V7h-1.5v6.5L10 12z" />
+                </svg>
+              )}
+            </span>
+            {isCategoriesDropdownOpen && (
+              <div className="absolute bg-gray-700 text-white mt-1 p-2 rounded-md space-y-2 flex flex-col">
+                {categories.map((category, index) => (
+                  <Link
+                    key={category}
+                    to={`/category/${category}`}
+                    className={`text-${index + 1}-500 hover:underline`}
+                  >
+                    {category}
+                  </Link>
+                ))}
+              </div>
+            )}
+          </div>
         </div>
         {user ? (
           <div className="relative">
             <button
-              onClick={toggleDropdown}
+              onClick={() => {
+                setIsDropdownOpen(!isDropdownOpen);
+                closeCategoriesDropdown();
+              }}
               className="flex items-center space-x-2 focus:outline-none"
             >
               <RxAvatar className="text-2xl text-white" />
-              <svg
-                xmlns="http://www.w3.org/2000/svg"
-                className="h-4 w-4 text-white"
-                viewBox="0 0 20 20"
-                fill="currentColor"
-              >
-                {isDropdownOpen ? (
-                  <path
-                    fillRule="evenodd"
-                    d="M2.293 7.293a1 1 0 011.414 0L10 14.586l6.293-6.293a1 1 0 111.414 1.414l-7 7a1 1 0 01-1.414 0l-7-7a1 1 0 010-1.414z"
-                    clipRule="evenodd"
-                  />
-                ) : (
-                  <path
-                    fillRule="evenodd"
-                    d="M2.293 9.293a1 1 0 011.414 0L10 16.586l6.293-6.293a1 1 0 111.414 1.414l-7 7a1 1 0 01-1.414 0l-7-7a1 1 0 010-1.414z"
-                    clipRule="evenodd"
-                  />
-                )}
-              </svg>
             </button>
             {isDropdownOpen && <AvatarDropdown />}
           </div>
@@ -62,54 +102,3 @@ function Navbar() {
 }
 
 export default Navbar;
-
-// import React from "react";
-// import { Link } from "react-router-dom";
-// import { RxAvatar } from "react-icons/rx";
-// import { useState } from "react";
-// import { useDispatch } from "react-redux";
-// import { logout } from "../redux/authSlice";
-
-// const Navbar = () => {
-//   const [showModal, setShowModal] = useState(false);
-//   const dispatch = useDispatch();
-
-//   const handleLogout = () => {
-//     dispatch(logout());
-//   };
-//   return (
-//     <div className="bg-indigo-950 text-white">
-//       <div className="flex p-4 justify-between gap-10  items-center">
-//         <div>
-//           <Link to="/" className="text-xl ">
-//             <b>
-//               Sahoo <br /> blog.
-//             </b>
-//           </Link>
-//         </div>
-//         {/* <ul className="flex gap-8">
-//           <li>Home</li>
-//           <li>About</li>
-//           <li>Contacts</li>
-//           <li>Categories</li>
-//         </ul> */}
-//         <div>
-//           <div
-//             className="text-2xl"
-//             onClick={() => setShowModal((prev) => !prev)}
-//           >
-//             <RxAvatar />
-//           </div>
-//           {showModal && (
-//             <div className="flex-col">
-//               <Link to="/create">Create</Link>
-//               <button onClick={handleLogout}>Logout</button>
-//             </div>
-//           )}
-//         </div>
-//       </div>
-//     </div>
-//   );
-// };
-
-// export default Navbar;
