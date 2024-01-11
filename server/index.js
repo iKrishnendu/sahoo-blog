@@ -31,31 +31,31 @@ mongoose
 //   api_secret: process.env.CLOUDINARY_API_SECRET,
 // });
 
-app.use(
-  session({
-    secret: process.env.JWT_SECRET,
-    resave: false,
-    saveUninitialized: false,
-  })
-);
+// app.use(
+//   session({
+//     secret: process.env.JWT_SECRET,
+//     resave: false,
+//     saveUninitialized: false,
+//   })
+// );
 
 // Initialize Passport
-app.use(passport.initialize());
-app.use(passport.session()); // Add passport.session middleware
+// app.use(passport.initialize());
+// app.use(passport.session()); // Add passport.session middleware
 
-app.use((req, res, next) => {
-  res.setHeader("Access-Control-Allow-Origin", "*");
-  res.setHeader(
-    "Access-Control-Allow-Methods",
-    "OPTIONS, GET, POST, PUT, PATCH, DELETE"
-  );
-  res.setHeader("Access-Control-Allow-Headers", "Content-Type, Authorization");
-  next(); // dont forget this
-});
+// app.use((req, res, next) => {
+//   res.setHeader("Access-Control-Allow-Origin", "*");
+//   res.setHeader(
+//     "Access-Control-Allow-Methods",
+//     "OPTIONS, GET, POST, PUT, PATCH, DELETE"
+//   );
+//   res.setHeader("Access-Control-Allow-Headers", "Content-Type, Authorization");
+//   next(); // dont forget this
+// });
 
 //routes
-// app.use(cors());
-app.use(cors({ origin: "http://localhost:3000", credentials: true }));
+app.use(cors());
+// app.use(cors({ origin: "http://localhost:3000", credentials: true }));
 app.use(bodyParser.json());
 app.use(express.json()); //body parser
 app.use(express.urlencoded({ extended: true }));
