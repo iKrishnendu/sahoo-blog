@@ -1,5 +1,5 @@
 const nodemailer = require("nodemailer");
-const YOUR_BASE_URL = "http://localhost:3000";
+// const YOUR_BASE_URL = "http://localhost:3000";
 
 function generateVerificationToken() {
   const crypto = require("crypto");
@@ -21,7 +21,7 @@ function sendVerificationEmail(email, verificationToken) {
     from: "krishnendusahoo.edu@gmail.com",
     to: email,
     subject: "Verify Your Email",
-    text: `Click the following link to verify your email: ${YOUR_BASE_URL}/verify?token=${verificationToken}`,
+    text: `Click the following link to verify your email: ${process.env.CLIENT_BASE_URL}/verify?token=${verificationToken}`,
   };
 
   transporter.sendMail(mailOptions, (error, info) => {

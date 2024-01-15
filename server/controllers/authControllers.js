@@ -90,7 +90,7 @@ authControllers.get("/verify", async (req, res) => {
     const { password, ...others } = user._doc; // Exclude password from the response
     // Add any other user information you want to include in the response
 
-    const url = "http://localhost:3000";
+    const url = process.env.CLIENT_BASE_URL;
 
     res.status(200).json({ user: others, token: userToken, url });
     // Redirect the user to the home page or any other designated page
