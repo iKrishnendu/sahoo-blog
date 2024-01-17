@@ -1,14 +1,16 @@
-import React, { useState } from "react";
+import React, { useState, useEffect } from "react";
 import AvatarDropdown from "./AvatarDropdown";
 import { RxAvatar } from "react-icons/rx";
 import { Link } from "react-router-dom";
 import { useSelector } from "react-redux";
-import { categories } from "../utils/categories";
+import { request } from "../utils/fetchApi";
 
 function Navbar() {
   const [isDropdownOpen, setIsDropdownOpen] = useState(false);
   const [isCategoriesDropdownOpen, setIsCategoriesDropdownOpen] =
     useState(false);
+
+  const [categories, setCategories] = useState([]);
 
   const { user } = useSelector((state) => state.auth);
 
@@ -19,6 +21,20 @@ function Navbar() {
   const closeCategoriesDropdown = () => {
     setIsCategoriesDropdownOpen(false);
   };
+
+  useEffect(() => {
+    const fetchCategories = async () => {
+      try {
+        const data = await request("/categories", "GET");
+        const categoryNames = data.map((category) => category.name);
+        setCategories(categoryNames);
+      } catch (error) {
+        console.error(error);
+      }
+    };
+
+    fetchCategories();
+  }, []);
 
   // const closeAllDropdowns = () => {
   //   setIsDropdownOpen(false);
@@ -65,11 +81,11 @@ function Navbar() {
             </span>
             {isCategoriesDropdownOpen && (
               <div className="absolute bg-gray-700 text-white mt-1 p-2 rounded-md space-y-2 flex flex-col">
-                {categories.map((category, index) => (
+                {categories.map((category) => (
                   <Link
                     key={category}
-                    to={`/category/${category}`}
-                    className={`text-${index + 1}-500 hover:underline`}
+                    to={`/categories/${category}`}
+                    className={` hover:underline`}
                   >
                     {category}
                   </Link>

@@ -9,6 +9,8 @@ import { useSelector } from "react-redux";
 import Layout from "./layout/Layout";
 import Profile from "./pages/Profile";
 import VerifyEmail from "./pages/VerifyEmail";
+import CategoryPage from "./pages/CategoryPage";
+
 // import UpdateProfile from "./pages/UpdateProfile";
 
 function App() {
@@ -32,6 +34,10 @@ function App() {
             element={user ? <UpdateBlog /> : <Navigate to="/login" />}
           />
           <Route path="/verify" element={<VerifyEmail />} />
+          <Route
+            path="/categories/:category"
+            element={user ? <CategoryPage /> : <Navigate to="/login" />}
+          />
         </Route>
         <Route
           path="/login"
@@ -45,6 +51,7 @@ function App() {
           path="/profile"
           element={user ? <Profile /> : <Navigate to="/" />}
         />
+
         {/* <Route
           path="/update-profile"
           element={user ? <UpdateProfile /> : <Navigate to="/" />}

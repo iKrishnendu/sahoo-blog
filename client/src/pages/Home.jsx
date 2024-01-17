@@ -49,19 +49,6 @@ const Home = () => {
   return (
     <div>
       <Hero />
-      {/* <div className="flex justify-center">
-        {user ? (
-          <Link
-            to="/create"
-            className="bg-stone-900 px-2 py-1 text-xl rounded-sm
-             text-white items-center justify-around flex w-full md:w-52 mt-4 mx-2 shadow-md"
-          >
-            Create Post
-          </Link>
-        ) : (
-          ""
-        )}
-      </div> */}
       {loading ? (
         <div className="text-center mt-8 grid grid-cols-1 sm:grid-cols-2 md:grid-cols-3 gap-4 justify-center">
           <Loading item={3} />

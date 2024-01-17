@@ -1,16 +1,24 @@
-import React from "react";
+import React, { useState, useEffect } from "react";
 import { Link } from "react-router-dom";
+import { request } from "../utils/fetchApi";
 
 const Categories = () => {
-  // Dummy categories data (replace with your actual data)
-  const categories = [
-    "Technology",
-    "Travel",
-    "Food",
-    "Fashion",
-    "Sports",
-    "Enggenering",
-  ];
+  const [categories, setCategories] = useState([]);
+
+  useEffect(() => {
+    const fetchCategories = async () => {
+      try {
+        const data = await request("/categories", "GET");
+        // Extract only the 'name' from each category
+        const categoryNames = data.map((category) => category.name);
+        setCategories(categoryNames);
+      } catch (error) {
+        console.error(error);
+      }
+    };
+
+    fetchCategories();
+  }, []);
 
   return (
     <div className="bg-gray-100 p-4 rounded-md shadow-md">
@@ -19,7 +27,7 @@ const Categories = () => {
         {categories.map((category) => (
           <Link
             key={category}
-            to={`/category/${category}`}
+            to={`/categories/${category}`}
             className="inline-block px-3 py-1 rounded-full text-white bg-blue-500 hover:bg-blue-600 mb-2 transition duration-300 ease-in-out transform hover:scale-105"
           >
             {category}
