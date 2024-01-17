@@ -1,4 +1,4 @@
-import React, { useState } from "react";
+import React, { useState, useEffect } from "react";
 
 import { useSelector } from "react-redux";
 import { Link, useNavigate } from "react-router-dom";
@@ -17,17 +17,23 @@ const Create = () => {
     img: null,
     category: "",
   });
+  const [newCategory, setNewCategory] = useState("");
   const navigate = useNavigate();
+  const [categories, setCategories] = useState([]);
+  useEffect(() => {
+    const fetchCategories = async () => {
+      try {
+        const data = await request("/categories", "GET");
+        // Extract only the 'name' from each category
+        const categoryNames = data.map((category) => category.name);
+        setCategories(categoryNames);
+      } catch (error) {
+        console.error(error);
+      }
+    };
 
-  const categories = [
-    "nature",
-    "music",
-    "travel",
-    "design",
-    "programming",
-    "fun",
-    "fashion",
-  ];
+    fetchCategories();
+  }, []);
 
   const onChangeFile = (e) => {
     setFormData({
@@ -83,41 +89,35 @@ const Create = () => {
       console.error(error);
     }
   };
+  const handleAddCategory = async () => {
+    if (newCategory.trim() !== "" && !categories.includes(newCategory)) {
+      try {
+        const options = {
+          method: "POST",
+          headers: {
+            "Content-Type": "application/json",
+            Authorization: `Bearer ${token}`,
+          },
+          body: JSON.stringify({ name: newCategory }),
+        };
 
-  // const handleCreateBlog = async (e) => {
-  //   e.preventDefault();
+        const response = await fetch(
+          `${process.env.REACT_APP_SERVER_URL}/categories`,
+          options
+        );
 
-  //   try {
-  //     const blogData = new FormData();
-
-  //     // Append all form data to blogData
-  //     blogData.append("title", formData.title);
-  //     blogData.append("desc", formData.desc);
-  //     blogData.append("category", formData.category);
-  //     blogData.append("image", formData.img);
-  //     // blogData.append("userId", user._id);
-
-  //     console.log(
-  //       formData.title,
-  //       formData.desc,
-  //       formData.category,
-  //       formData.img
-  //     );
-  //     const options = {
-  //       // "Content-Type": "application/json",
-  //       // "Content-Type": "multipart/form-data",
-  //       Authorization: `Bearer ${token}`,
-  //     };
-  //     console.log(options);
-  //     const data = await request("/blog", "POST", options, blogData);
-  //     console.log(data);
-  //     if (data.ok) {
-  //       navigate(`/blogDetails/${data._id}`);
-  //     }
-  //   } catch (error) {
-  //     console.error(error);
-  //   }
-  // };
+        if (response.ok) {
+          setCategories([...categories, newCategory]);
+          setFormData({ ...formData, category: newCategory });
+          setNewCategory("");
+        } else {
+          console.error("Failed to add category:", response.status);
+        }
+      } catch (error) {
+        console.error("Error adding category:", error);
+      }
+    }
+  };
 
   return (
     <>
@@ -176,6 +176,22 @@ const Create = () => {
                     </option>
                   ))}
                 </select>
+                <div className="flex items-center gap-2">
+                  <input
+                    type="text"
+                    placeholder="New Category..."
+                    value={newCategory}
+                    className="border-2 border-black-500 rounded-lg p-1"
+                    onChange={(e) => setNewCategory(e.target.value)}
+                  />
+                  <button
+                    type="button"
+                    onClick={handleAddCategory}
+                    className="bg-green-500 text-white px-2 py-1 rounded-md"
+                  >
+                    Add
+                  </button>
+                </div>
               </div>
               <div className="form-group flex flex-col gap-3">
                 <label htmlFor="image">

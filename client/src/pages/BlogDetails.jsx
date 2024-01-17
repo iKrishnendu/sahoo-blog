@@ -89,6 +89,9 @@ const BlogDetails = () => {
                 <div>
                   <div className="text-center my-5 text-2xl prose">
                     <h2>{blogDetails?.title}</h2>
+                    <span className="text-lg justify-center px-3 py-1 cursor-pointer rounded-full text-white bg-red-500 hover:bg-blue-600 mb-2 transition duration-300 ease-in-out transform hover:scale-105">
+                      {blogDetails?.category}
+                    </span>
                   </div>
                   {blogDetails?.userId?._id === user._id ? (
                     <div className="flex gap-3">
@@ -116,6 +119,7 @@ const BlogDetails = () => {
                     </>
                   )}
                 </div>
+
                 <div className="py-5">
                   <p className="text-lg">
                     <span>Description: </span>
