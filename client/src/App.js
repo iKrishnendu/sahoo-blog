@@ -10,6 +10,8 @@ import Layout from "./layout/Layout";
 import Profile from "./pages/Profile";
 import VerifyEmail from "./pages/VerifyEmail";
 import CategoryPage from "./pages/CategoryPage";
+import ForgotPassword from "./pages/ForgotPassword";
+import ResetPassword from "./pages/ResetPassword";
 
 // import UpdateProfile from "./pages/UpdateProfile";
 
@@ -26,11 +28,11 @@ function App() {
             element={user ? <Create /> : <Navigate to="/login" />}
           />
           <Route
-            path="/blogDetails/:id"
+            path="/blog-details/:id"
             element={user ? <BlogDetails /> : <Navigate to="/login" />}
           />
           <Route
-            path="/updateBlog/:id"
+            path="/update-blog/:id"
             element={user ? <UpdateBlog /> : <Navigate to="/login" />}
           />
           <Route path="/verify" element={<VerifyEmail />} />
@@ -51,6 +53,11 @@ function App() {
           path="/profile"
           element={user ? <Profile /> : <Navigate to="/" />}
         />
+        <Route
+          path="/forgot-password"
+          element={!user ? <ForgotPassword /> : <Navigate to="/" />}
+        />
+        <Route path="/reset-password" element={<ResetPassword />} />
 
         {/* <Route
           path="/update-profile"

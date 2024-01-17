@@ -53,7 +53,7 @@ const UpdateBlog = () => {
         desc,
         category,
       });
-      navigate(`/blogDetails/${id}`);
+      navigate(`/blog-details/${id}`);
     } catch (error) {
       console.error(error);
     }

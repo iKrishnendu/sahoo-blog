@@ -8,6 +8,8 @@ const jwt = require("jsonwebtoken");
 const {
   generateVerificationToken,
   sendVerificationEmail,
+  generateResetPasswordToken,
+  sendResetPasswordEmail,
 } = require("../utils/emailUtils");
 // const googleClient = new OAuth2Client(process.env.GOOGLE_CLIENT_ID);
 
@@ -169,6 +171,61 @@ authControllers.put("/update-profile/:id", async (req, res) => {
     });
 
     res.status(200).json({ user: others, token });
+  } catch (error) {
+    res.status(500).json(error);
+  }
+});
+
+// Forgot Password - Generate Reset Token and Send Email
+authControllers.post("/forgot-password", async (req, res) => {
+  try {
+    const { email } = req.body;
+    const user = await User.findOne({ email });
+
+    if (!user) {
+      return res.status(404).json("User not found");
+    }
+
+    const resetToken = generateResetPasswordToken();
+    user.verificationToken = resetToken;
+
+    await user.save();
+
+    sendResetPasswordEmail(user.email, resetToken);
+
+    res.status(200).json("Reset password email sent successfully");
+  } catch (error) {
+    console.error(error);
+    res.status(500).json(error);
+  }
+});
+
+// Reset Password - Validate Token and Update Password
+
+authControllers.post("/reset-password", async (req, res) => {
+  console.log("Reset password endpoint activated");
+  try {
+    const { token, newPassword } = req.body;
+
+    // Add logic to verify the token's validity and expiration
+
+    // Find the user by the reset token
+    const user = await User.findOne({ verificationToken: token });
+
+    if (!user) {
+      return res.status(404).json("User not found");
+    }
+
+    // Update the user's password
+    const salt = await bcrypt.genSalt(10);
+    const hashedPassword = await bcrypt.hash(newPassword, salt);
+
+    user.password = hashedPassword;
+    user.verificationToken = undefined;
+
+    await user.save();
+
+    res.status(200).json("Password reset successfully");
   } catch (error) {
     res.status(500).json(error);
   }

@@ -78,7 +78,7 @@ const Create = () => {
         const data = await response.json();
         console.log(data);
         if (data && data._id) {
-          navigate(`/blogDetails/${data._id}`);
+          navigate(`/blog-details/${data._id}`);
         } else {
           console.error("Invalid response data");
         }

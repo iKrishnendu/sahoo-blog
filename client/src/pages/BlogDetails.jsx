@@ -97,7 +97,7 @@ const BlogDetails = () => {
                     <div className="flex gap-3">
                       <Link
                         className="flex gap-2 items-center bg-green-400 px-2 py-1 rounded-sm"
-                        to={`/updateBlog/${blogDetails?._id}`}
+                        to={`/update-blog/${blogDetails?._id}`}
                       >
                         Edit <AiFillEdit />
                       </Link>

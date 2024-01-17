@@ -55,6 +55,12 @@ const Login = () => {
               Register
             </Link>
           </p>
+          <p className="mt-2 text-sm text-gray-500">
+            Forgot your password?{" "}
+            <Link to="/forgot-password" className="text-blue-500">
+              Reset it here
+            </Link>
+          </p>
           <form className="mt-6" onSubmit={handleLogin}>
             <input
               type="email"

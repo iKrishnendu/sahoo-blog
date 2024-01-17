@@ -7,7 +7,7 @@ export const PostCard = ({ _id, title, desc, category, image }) => {
       <div className="post shadow-lg bg-[#F3F3F2] shadow-blue-100 hover:shadow-gray-300 rounded-lg p-2 h-96 overflow-hidden">
         <div key={_id} className="">
           <div className="overflow-hidden rounded-lg"></div>
-          <Link to={`/blogDetails/${_id}`}>
+          <Link to={`/blog-details/${_id}`}>
             <img
               src={image.url}
               className="w-full cursor-pointer transition duration-200 ease-in-out transform hover:scale-105 rounded-lg h-60"
