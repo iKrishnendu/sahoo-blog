@@ -1,6 +1,8 @@
 import React from "react";
+import { FaGithub } from "react-icons/fa";
 
 const Footer = () => {
+  const githubRepoURL = "https://github.com/ikrishnendu/sahoo-blog";
   return (
     <footer className="bg-gray-900 text-white py-8 px-4 pb-2">
       <div className="container mx-auto grid grid-cols-1 lg:grid-cols-3 gap-8">
@@ -11,6 +13,28 @@ const Footer = () => {
             Exploring Ideas, Inspiring Minds: Your Source for Thoughtful
             Insights
           </p>
+          <div className="flex items-center">
+            <span className="mr-2">Like this project?</span>
+            <a
+              href={githubRepoURL}
+              target="_blank"
+              rel="noopener noreferrer"
+              className="text-white hover:text-gray-200"
+            >
+              <FaGithub size={20} />
+            </a>
+            <span className="ml-2">
+              Star it on{" "}
+              <a
+                href={githubRepoURL}
+                target="_blank"
+                rel="noopener noreferrer"
+                className="text-blue-400 hover:underline"
+              >
+                GitHub
+              </a>
+            </span>
+          </div>
         </div>
 
         {/* Pages Column */}
@@ -27,7 +51,7 @@ const Footer = () => {
             </li>
             <li>
               <a
-                href="/blog"
+                href="/create"
                 className="hover:text-gray-200 text-gray-400 hover:border-b-2 hover:border-white transition-all"
               >
                 Write Blog

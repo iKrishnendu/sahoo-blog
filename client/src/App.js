@@ -12,6 +12,7 @@ import VerifyEmail from "./pages/VerifyEmail";
 import CategoryPage from "./pages/CategoryPage";
 import ForgotPassword from "./pages/ForgotPassword";
 import ResetPassword from "./pages/ResetPassword";
+import AboutPage from "./pages/AboutPage";
 
 // import UpdateProfile from "./pages/UpdateProfile";
 
@@ -40,6 +41,7 @@ function App() {
             path="/categories/:category"
             element={user ? <CategoryPage /> : <Navigate to="/login" />}
           />
+          <Route path="/about" element={<AboutPage />} />
         </Route>
         <Route
           path="/login"
